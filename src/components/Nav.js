@@ -18,7 +18,7 @@ export default function Nav() {
         </li>
         <li>
           <Link activeClassName="active" to="/tips">
-            🔥 Tips
+            Tips
           </Link>
         </li>
       </ul>

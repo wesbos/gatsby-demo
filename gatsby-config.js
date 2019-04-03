@@ -43,6 +43,7 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-plugin-sass`,
     `gatsby-plugin-transition-link`,
-    `gatsby-plugin-react-helmet`
+    `gatsby-plugin-react-helmet`,
+
   ],
 };

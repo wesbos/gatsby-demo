@@ -7,18 +7,23 @@ export default function Nav() {
     <nav className={NavStyles.nav}>
       <ul>
         <li>
-          <Link activeClassName="active" to="/">
+          <Link activeClassName={NavStyles.active} to="/">
             Home
           </Link>
         </li>
         <li>
-          <Link activeClassName="active" to="/about">
+          <Link activeClassName={NavStyles.active} to="/about">
             About
           </Link>
         </li>
         <li>
-          <Link activeClassName="active" to="/tips">
+          <Link activeClassName={NavStyles.active} to="/tips">
             Tips
+          </Link>
+        </li>
+        <li>
+          <Link activeClassName={NavStyles.active} to="/users">
+            Users
           </Link>
         </li>
       </ul>

@@ -1,4 +1,5 @@
 const path = require('path');
+const axios = require('axios');
 
 async function turnMDXIntoPages({ graphql, actions }) {
   const tipTemplate = path.resolve('./src/components/templates/tip.js');
@@ -32,55 +33,36 @@ async function turnMDXIntoPages({ graphql, actions }) {
   });
 }
 
+async function sourceUsers({ actions, createNodeId, createContentDigest }) {
+  // 1. Fetch the users
+  const { data: users } = await axios.get('https://jsonplaceholder.typicode.com/users');
+  // 2. Loop over Each user
+  users.forEach(user => {
+    // 3. Create an object for the user
+    const node = {
+      // Data for the node
+      ...user, // take everything from the user,
+      // Custom data fields
+      // custom ID
+      id: createNodeId(`user-${user.id}`),
+      parent: null, // there is no parent
+      children: [], // no children
+      internal: {
+        type: `User`, // What should we call it?
+        mediaType: 'application/json',
+        contentDigest: createContentDigest(user), // helps gatsby know when a node changed
+      }
+    }
+    actions.createNode(node);
+  });
+}
+
 exports.createPages = async function({ graphql, actions }) {
   await turnMDXIntoPages({ graphql, actions });
 };
 
 
-// exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
-//   const { createNode } = actions
-//   var fs = require('fs');
-
-//   const tweets = require('./src/tweets.js').reverse().slice(0, 20);
-
-
-//   tweets.forEach(function (tweet, i) {
-
-//     if (tweet.entities.media.length) {
-//       const filename = tweet.entities.media[0].media_url.split('/').pop().replace(' ','');
-//       // move the photo over
-//       fs.createReadStream(`../../../../../Downloads/815246_fed6dd08eac39871ab83b7657c3acf873464607b/${tweet.entities.media[0].media_url}`).pipe(fs.createWriteStream(`./src/images/tweets/${filename}`));
-
-// const mdx = `---
-// title: ${tweet.text.split('\n').pop()}
-// slug: ${tweet.text.replace('🔥','').toLowerCase().trim().split(' ').slice(0,3).join('-')}
-// type: tip
-// ---
-
-// ![](../images/tweets/${filename})
-
-// ${tweet.text}
-// `;
-
-//     fs.writeFileSync(`./src/tips/hot-tip-${i + 1}.mdx`, mdx);
-//     }
-
-
-//       const node = {
-//         ...tweet,
-//       id: createNodeId(`tweet-${tweet.id}`),
-//       parent: null,
-//       children: [],
-//       internal: {
-//         type: `Tweet`,
-//         mediaType: `text/json`,
-//         content: JSON.stringify(tweet),
-//         contentDigest: createContentDigest(tweet)
-//       }
-//     }
-//     createNode(node)
-//   });
-
-
-// };
+exports.sourceNodes = async function({ actions, createNodeId, createContentDigest }) {
+  await sourceUsers({actions, createNodeId, createContentDigest});
+}
 

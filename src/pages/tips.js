@@ -1,13 +1,14 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 import Layout from '../components/Layout';
+import TipsList from '../components/styles/TipsListStyles';
 
 export default function TipsPage({ data }) {
   const tips = data.allMdx.nodes;
   return (
     <Layout>
       <h2>Tips!</h2>
-      <ul>
+      <TipsList>
         {tips.map(tip => (
           <li key={tip.id}>
             <Link to={`/tip/${tip.frontmatter.slug}`}>
@@ -15,7 +16,7 @@ export default function TipsPage({ data }) {
             </Link>
           </li>
         ))}
-      </ul>
+      </TipsList>
     </Layout>
   );
 }

@@ -1,8 +1,7 @@
 import React from 'react';
-import { graphql } from 'gatsby';
-import MDXRenderer from 'gatsby-mdx/mdx-renderer';
-import { Link } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import Helmet from 'react-helmet';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 import Layout from '../Layout';
 import tipStyles from '../styles/tip.module.scss';
 
@@ -15,7 +14,7 @@ export default function Tip({ data, pageContext }) {
       </Helmet>
       <div className={tipStyles.tip}>
         <h2>{tip.frontmatter.title}</h2>
-        <MDXRenderer>{tip.code.body}</MDXRenderer>
+        <MDXRenderer>{tip.body}</MDXRenderer>
 
         {pageContext.prev && (
           <Link
@@ -46,10 +45,7 @@ export const query = graphql`
   query($id: String!) {
     mdx(id: { eq: $id }) {
       id
-      code {
-        body
-        scope
-      }
+      body
       frontmatter {
         slug
         title

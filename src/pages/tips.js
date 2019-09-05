@@ -23,12 +23,9 @@ export default function TipsPage({ data }) {
 
 export const query = graphql`
   query {
-    allMdx {
+    allMdx(filter: { frontmatter: { type: { eq: "tip" } } }) {
       nodes {
         id
-        code {
-          body
-        }
         frontmatter {
           slug
           title

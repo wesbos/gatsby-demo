@@ -26,7 +26,7 @@ async function turnMDXIntoPages({ graphql, actions }) {
       // What data should be surfaced to the Component or Query on this page?
       context: {
         id: tip.id,
-        prev: tips[i - 1] ? tips[i - 1].frontmatter.slug : null,
+        prev: i !== 0 ? tips[i - 1].frontmatter.slug : null,
         next: tips[i + 1] ? tips[i + 1].frontmatter.slug : null,
       },
     });
@@ -35,7 +35,9 @@ async function turnMDXIntoPages({ graphql, actions }) {
 
 async function sourceUsers({ actions, createNodeId, createContentDigest }) {
   // 1. Fetch the users
-  const { data: users } = await axios.get('https://jsonplaceholder.typicode.com/users');
+  const { data: users } = await axios.get(
+    'https://jsonplaceholder.typicode.com/users'
+  );
   // 2. Loop over Each user
   users.forEach(user => {
     // 3. Create an object for the user
@@ -51,8 +53,8 @@ async function sourceUsers({ actions, createNodeId, createContentDigest }) {
         type: `User`, // What should we call it?
         mediaType: 'application/json',
         contentDigest: createContentDigest(user), // helps gatsby know when a node changed
-      }
-    }
+      },
+    };
     actions.createNode(node);
   });
 }
@@ -61,8 +63,10 @@ exports.createPages = async function({ graphql, actions }) {
   await turnMDXIntoPages({ graphql, actions });
 };
 
-
-exports.sourceNodes = async function({ actions, createNodeId, createContentDigest }) {
-  await sourceUsers({actions, createNodeId, createContentDigest});
-}
-
+exports.sourceNodes = async function({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) {
+  await sourceUsers({ actions, createNodeId, createContentDigest });
+};

@@ -39,6 +39,18 @@ module.exports = {
         ],
       },
     },
+    // Duplicate plugin declaration?!
+    // THIS IS A BUG FIX
+    // https://twitter.com/chrisbiscardi/status/1171139195257012224
+    {
+      resolve: 'gatsby-remark-images',
+      options: {
+        maxWidth: 500,
+        linkImagesToOriginal: false,
+      },
+    },
+    // END BUG
+    // I HOPE THIS IS TEMPORARY
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-sass`,

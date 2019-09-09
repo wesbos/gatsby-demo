@@ -17,22 +17,12 @@ export default function Tip({ data, pageContext }) {
         <MDXRenderer>{tip.body}</MDXRenderer>
 
         {pageContext.prev && (
-          <Link
-            bg="#fff"
-            direction="right"
-            swipe
-            to={`/tip/${pageContext.prev}`}
-          >
+          <Link bg="#fff" direction="right" to={`/tip/${pageContext.prev}`}>
             ← Prev Tip
           </Link>
         )}
         {pageContext.next && (
-          <Link
-            bg="#fff"
-            direction="left"
-            swipe
-            to={`/tip/${pageContext.next}`}
-          >
+          <Link bg="#fff" direction="left" to={`/tip/${pageContext.next}`}>
             Next Tip →
           </Link>
         )}
